@@ -356,6 +356,8 @@ def fierce(**kwargs):
 
     for subdomain in subdomains:
         url = concatenate_subdomains(domain, [subdomain])
+        if kwargs.get("verbose"):
+            print("Check: {}".format(url))
         record = query(resolver, url, record_type='A', tcp=kwargs["tcp"])
 
         if record is None or record.rrset is None:
@@ -467,6 +469,11 @@ def parse_args(args):
         '--tcp',
         action='store_true',
         help='use TCP instead of UDP'
+    )
+    p.add_argument(
+        '--verbose',
+        action='store_true',
+        help='enable verbose mode'
     )
 
     args = p.parse_args(args)
